@@ -19,14 +19,29 @@ function agregarTweets(e) {
         e.preventDefault();
 
         // Text Area donde el USUARIO  escribe..
-        const tweets = document.querySelector('#tweet').value;
+        const tweet = document.querySelector('#tweet').value;
 
         //validacion
-        if(tweets === ''){
+        if(tweet === ''){
             mostrarError('Un Mensaje no Puede ir Vacio');
             return ; // evita que se ejecuten mas lineas de codigo
         } 
-        console.log(tweets);
+
+        const tweetObj = {
+            id: Date.now(),
+            tweet
+        }
+
+
+        // Anadir al arreglo de Tweets
+        tweets = [...tweets, tweetObj];
+
+        // Una vez agregado
+        crearHTML();
+
+
+        // Reinicar formulario.
+        formulario.reset()
 
     }
 
@@ -48,4 +63,39 @@ function agregarTweets(e) {
            mensajeError.remove();
 
        }, 3000);
+   }
+
+
+   // Muestra el estado de los tweets
+
+   function crearHTML() {
+
+
+        lipiarHtml()
+
+       if(tweets.length > 0){
+           tweets.forEach(twet => {
+               // crear el HTML
+               const li = document.createElement('li');
+
+               // Anadir el Texto.....
+               li.textContent = twet.tweet;
+
+                // Agregar al Html 
+                listaTweets.appendChild(li);
+
+           })
+       }
+   }
+
+
+
+   // limpiar el html
+
+   function lipiarHtml() {
+       while(listaTweets.firstChild) {
+           listaTweets.removeChild(listaTweets.firstChild);
+       }
+
+
    }
